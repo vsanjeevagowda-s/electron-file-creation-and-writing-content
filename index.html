@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>File creation in the electronjs</title>
+</head>
+
+<body>
+  <h4>Enter the content</h4>
+  <textarea cols="20" rows="10"  id="fileContent"></textarea></br>
+  <button id="btn-createfile" >File</button><br/>
+  <button id="btn-readData" >Read Date from the created file</button>
+  <p id="data-container" />
+  <script>
+    const app = require('electron').remote; 
+    const dialog = app.dialog;
+    const fs = require('fs');
+
+    console.log('dialog =>', dialog);
+    console.log('fs =>', fs);
+
+    document.getElementById('btn-createfile').addEventListener('click', function(){
+      dialog.showSaveDialog((filename) => {
+        localStorage.setItem('filename', filename);
+        const fileContent = document.getElementById('fileContent').value;
+        fs.writeFile(filename, fileContent, (err, message)=>{
+        })
+      })
+    });
+
+    document.getElementById('btn-readData').addEventListener('click', function(){
+      fs.readFile(localStorage.getItem('filename'), (error, data) => {
+        console.log(data,'data');
+        console.log(error,'error');
+          document.getElementById('data-container').innerHTML = data;
+      })
+    });
+    
+  </script>
+</body>
+
+</html>
